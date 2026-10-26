@@ -133,6 +133,8 @@
   .qr img { width: min(280px, 100%); height: auto; border: 6px solid #fff; border-radius: 8px; box-shadow: 0 0 0 1.5px var(--crema-2); }
   .qr .btn { text-decoration: none; max-width: 280px; }
   .qr .qr-nota { font-size: 14px; color: #6E513C; }
+  .btn-wsp { background: #1F7A4A; color: #fff; border: 2px solid #1F7A4A; text-decoration: none; max-width: 320px; }
+  .btn-wsp:hover { background: #17633B; }
   .exito { text-align: center; display: none; }
   .exito.ver { display: block; }
   .exito h2 { font-family: 'Rye', serif; font-weight: 400; font-size: 30px; color: var(--ok); margin: 8px 0; }
@@ -212,7 +214,16 @@
           <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 20h14"/></svg>
           Descargar QR
         </a>
-        <p class="qr-nota">Si pagas desde este mismo celular, descarga el QR y súbelo en la app de tu banco. En la glosa pon tu nombre.</p>
+        <p class="qr-nota">Si pagas desde este mismo celular, descarga el QR y súbelo en la app de tu banco.</p>
+      </div>
+      <div class="qr comprobante">
+        <h3>Envía tu comprobante</h3>
+        <p>Después de pagar, manda la captura del comprobante a <b>Derin Vaca</b> al <b>+591 69388885</b>.</p>
+        <a class="btn btn-wsp" id="wsp" href="https://wa.me/59169388885" target="_blank" rel="noopener">
+          <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11.5a8.5 8.5 0 0 1-12.6 7.4L3.5 20l1.2-3.7A8.5 8.5 0 1 1 20 11.5z"/><path d="M9 8.5c0 3.5 2.5 6.5 6.5 6.5l1-1.5-2-1-1 1c-1-.5-2-1.5-2.5-2.5l1-1-1-2-1.5 1"/></svg>
+          Enviar comprobante por WhatsApp
+        </a>
+        <p class="qr-nota">Se abre WhatsApp con tu pedido ya escrito: solo adjunta la captura y envía.</p>
       </div>
       <button type="button" class="btn btn-sec" id="otra">Registrar a más personas</button>
     </section>
@@ -370,6 +381,10 @@
       const aPagar = bs(personas.reduce((s, p) => s + precio(p.talla), 0));
       $('#pagar-monto').textContent = aPagar;
       $('#qr-monto').textContent = aPagar;
+      const msg = 'Hola Derin 👋 Te envío mi comprobante de pago de las poleras del Junte Family 2026 🤠\n\n' +
+        personas.map((p) => '• ' + p.nombre + ' – ' + etiqueta(p.talla) + ' – ' + bs(precio(p.talla))).join('\n') +
+        '\n\nTotal pagado: ' + aPagar;
+      $('#wsp').href = 'https://wa.me/59169388885?text=' + encodeURIComponent(msg);
       $('#registro').hidden = true;
       $('#exito').classList.add('ver');
       $('#exito').scrollIntoView({ behavior: 'smooth', block: 'start' });
