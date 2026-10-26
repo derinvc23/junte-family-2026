@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Poleras Junte Family 2026</title>
+<meta name="description" content="Registra tu nombre y talla para la polera del Junte Family 2026 · Sábado 19 de diciembre · Trinidad, Beni">
+<meta property="og:title" content="Poleras · Junte Family 2026 🤠">
+<meta property="og:description" content="Registra tu nombre y talla. Sábado 19 de diciembre · Trinidad, Beni.">
+<meta property="og:image" content="logo.png">
+<meta name="theme-color" content="#3B2416">
+<link rel="icon" href="icon.png">
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rye&family=Work+Sans:wght@400;500;600;700&display=swap">
+<style>
+  /* ====== CONFIGURACIÓN ====== */
+  /* (los datos editables están más abajo, en el <script>) */
+  :root {
+    --crema: #F4EADB;
+    --crema-2: #EADCC6;
+    --cafe: #3B2416;
+    --cuero: #8A5A32;
+    --cuero-claro: #B88A5C;
+    --blanco: #FFFCF6;
+    --ok: #2F6B3A;
+    --error: #9B2C1F;
+    --radio: 10px;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; background: var(--crema); color: var(--cafe);
+    font-family: 'Work Sans', system-ui, sans-serif; font-size: 17px; line-height: 1.45;
+  }
+  .marco {
+    max-width: 560px; margin: 0 auto; padding: 22px 16px 48px;
+  }
+  .tarjeta {
+    border: 3px solid var(--cafe); border-radius: 8px; padding: 6px;
+  }
+  .tarjeta > .dentro {
+    border: 1.5px solid var(--cuero); border-radius: 5px; padding: 26px 20px 30px;
+  }
+  header { text-align: center; }
+  .etiqueta { margin: 0; font-size: 13px; font-weight: 700; letter-spacing: .28em; color: var(--cuero); }
+  .logo { width: min(300px, 78%); height: auto; display: block; margin: 14px auto 6px; }
+  .frase { width: min(440px, 100%); height: auto; display: block; margin: 4px auto 0; }
+  .fecha {
+    display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap;
+    margin: 18px 0 0; font-weight: 600; font-size: 15px; letter-spacing: .06em;
+  }
+  .fecha span { white-space: nowrap; }
+  .punto { width: 5px; height: 5px; border-radius: 50%; background: var(--cuero); }
+  h1 {
+    font-family: 'Rye', serif; font-weight: 400; font-size: clamp(28px, 7vw, 36px);
+    color: var(--cuero); margin: 26px 0 6px; text-align: center; line-height: 1.15;
+  }
+  .intro { text-align: center; margin: 0 0 6px; }
+  .limite {
+    text-align: center; margin: 10px auto 0; display: table; padding: 6px 14px; border-radius: 999px;
+    background: var(--cafe); color: var(--crema); font-size: 14px; font-weight: 600;
+  }
+  .divisor { display: flex; align-items: center; gap: 12px; margin: 26px 0 20px; }
+  .divisor::before, .divisor::after { content: ""; flex: 1; border-top: 3px dotted var(--cuero-claro); }
+  .divisor svg { flex: none; }
+
+  form { display: flex; flex-direction: column; gap: 16px; }
+  #personas { display: flex; flex-direction: column; gap: 14px; }
+  .persona {
+    background: var(--blanco); border: 1.5px solid var(--crema-2); border-radius: var(--radio);
+    padding: 16px; display: flex; flex-direction: column; gap: 12px; position: relative;
+  }
+  .persona-cab { display: flex; justify-content: space-between; align-items: center; }
+  .persona-cab h2 { margin: 0; font-size: 15px; font-weight: 700; letter-spacing: .08em; color: var(--cuero); text-transform: uppercase; }
+  .quitar {
+    border: 0; background: none; color: var(--error); font: inherit; font-size: 14px; font-weight: 600;
+    padding: 10px 4px; min-height: 44px; cursor: pointer;
+  }
+  label { display: flex; flex-direction: column; gap: 6px; font-size: 15px; font-weight: 600; }
+  label small { font-weight: 400; color: #6E513C; }
+  input, select {
+    font: inherit; font-size: 17px; color: var(--cafe); background: #fff;
+    border: 1.5px solid #CDB89C; border-radius: 8px; padding: 11px 12px; min-height: 48px; width: 100%;
+  }
+  input:focus, select:focus { outline: 3px solid rgba(138, 90, 50, .35); border-color: var(--cuero); }
+  .fila { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; align-items: end; }
+  @media (max-width: 380px) { .fila { grid-template-columns: minmax(0, 1fr); } }
+
+  .bloque {
+    background: var(--blanco); border: 1.5px solid var(--crema-2); border-radius: var(--radio);
+    padding: 16px; display: flex; flex-direction: column; gap: 12px;
+  }
+  .bloque h2 { margin: 0; font-size: 15px; font-weight: 700; letter-spacing: .08em; color: var(--cuero); text-transform: uppercase; }
+
+  .btn {
+    font: inherit; font-weight: 700; font-size: 17px; border-radius: 10px; padding: 14px 18px; min-height: 52px;
+    cursor: pointer; display: inline-flex; justify-content: center; align-items: center; gap: 10px; width: 100%;
+  }
+  .btn-sec { background: transparent; color: var(--cafe); border: 2px dashed var(--cuero-claro); }
+  .btn-sec:hover { background: rgba(138, 90, 50, .07); }
+  .btn-pri { background: var(--cafe); color: var(--crema); border: 2px solid var(--cafe); letter-spacing: .03em; }
+  .btn-pri:hover { background: #2A190F; }
+  .btn[disabled] { opacity: .6; cursor: progress; }
+
+  .aviso { border-radius: 10px; padding: 14px 16px; font-size: 15px; display: none; }
+  .aviso.ver { display: block; }
+  .aviso.error { background: #F8E1DC; color: var(--error); border: 1.5px solid #E7B4AA; }
+  .aviso.info { background: var(--crema-2); color: var(--cafe); }
+
+  .exito { text-align: center; display: none; }
+  .exito.ver { display: block; }
+  .exito h2 { font-family: 'Rye', serif; font-weight: 400; font-size: 30px; color: var(--ok); margin: 8px 0; }
+  .exito ul { list-style: none; padding: 0; margin: 14px 0 20px; display: flex; flex-direction: column; gap: 6px; }
+  .exito li { background: var(--blanco); border-radius: 8px; padding: 10px 12px; font-weight: 600; border: 1.5px solid var(--crema-2); }
+
+  .conteo { margin-top: 30px; }
+  .conteo h2 { font-family: 'Rye', serif; font-weight: 400; font-size: 24px; color: var(--cuero); text-align: center; margin: 0 0 4px; }
+  .conteo .total { text-align: center; margin: 0 0 14px; font-weight: 600; }
+  .barras { display: flex; flex-direction: column; gap: 7px; }
+  .barra { display: grid; grid-template-columns: 74px minmax(0, 1fr) 32px; align-items: center; gap: 10px; font-size: 15px; }
+  .barra .pista { height: 14px; background: var(--crema-2); border-radius: 7px; overflow: hidden; }
+  .barra .lleno { height: 100%; background: var(--cuero); border-radius: 7px; width: 0; transition: width .6s ease; }
+  .barra b { text-align: right; }
+  footer { text-align: center; margin-top: 30px; font-size: 14px; color: #6E513C; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+</style>
+</head>
+<body>
+<main class="marco">
+  <div class="tarjeta"><div class="dentro">
+    <header>
+      <p class="etiqueta">INVITACIÓN OFICIAL</p>
+      <img class="logo" src="logo.png" alt="Junte Family 2026" width="600" height="571">
+      <img class="frase" src="frase.png" alt="Un lazo que ni el tiempo puede soltar" width="900" height="205">
+      <p class="fecha"><span>Sábado 19 de diciembre</span><i class="punto" aria-hidden="true"></i><span>Trinidad, Beni</span></p>
+    </header>
+
+    <div class="divisor" aria-hidden="true">
+      <svg width="28" height="28" viewBox="0 0 34 34"><circle cx="17" cy="17" r="11" fill="none" stroke="#3B2416" stroke-width="2.5"/><circle cx="17" cy="17" r="5" fill="none" stroke="#3B2416" stroke-width="2.5"/></svg>
+    </div>
+
+    <section id="registro">
+      <h1>Pide tu polera</h1>
+      <p class="intro">Anota a cada persona de tu familia con su talla. Puedes registrar a varios a la vez.</p>
+      <p class="limite" id="limite"></p>
+
+      <div class="divisor" aria-hidden="true"></div>
+
+      <form id="form" novalidate>
+        <div id="personas"></div>
+
+        <button type="button" class="btn btn-sec" id="agregar">
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          Agregar otra persona
+        </button>
+
+        <div class="bloque">
+          <h2>Datos de la familia</h2>
+          <label>¿De qué familia son?
+            <small>Ej.: hijos de la tía Chirri, familia de Efrén…</small>
+            <input name="familia" autocomplete="off" maxlength="80" required>
+          </label>
+          <div class="fila">
+            <label>¿Desde qué ciudad viajan?
+              <input name="ciudad" autocomplete="address-level2" maxlength="60" placeholder="Trinidad">
+            </label>
+            <label>WhatsApp
+              <input name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" maxlength="30" placeholder="7xxxxxxx">
+            </label>
+          </div>
+        </div>
+
+        <div class="aviso error" id="error" role="alert"></div>
+        <div class="aviso info" id="sinconexion"></div>
+
+        <button type="submit" class="btn btn-pri" id="enviar">Registrar poleras</button>
+      </form>
+    </section>
+
+    <section class="exito" id="exito" aria-live="polite">
+      <svg aria-hidden="true" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#2F6B3A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m7.5 12.5 3 3 6-6"/></svg>
+      <h2>¡Listo, registrado!</h2>
+      <p>Estas poleras ya están anotadas:</p>
+      <ul id="lista"></ul>
+      <button type="button" class="btn btn-sec" id="otra">Registrar a más personas</button>
+    </section>
+
+    <section class="conteo" id="conteo" hidden>
+      <div class="divisor" aria-hidden="true"></div>
+      <h2>Poleras registradas</h2>
+      <p class="total" id="total"></p>
+      <div class="barras" id="barras"></div>
+    </section>
+
+    <footer>¡Que nadie falte! ❤️<br>Junte Family 2026</footer>
+  </div></div>
+</main>
+
+<template id="tpl-persona">
+  <fieldset class="persona" style="border:1.5px solid var(--crema-2); margin:0">
+    <legend class="sr">Persona</legend>
+    <div class="persona-cab">
+      <h2 class="titulo">Persona 1</h2>
+      <button type="button" class="quitar">Quitar</button>
+    </div>
+    <label>Nombre y apellido
+      <input class="nombre" autocomplete="off" maxlength="80" required>
+    </label>
+    <div class="fila">
+      <label>Talla
+        <select class="talla" required>
+          <option value="">Elegir…</option>
+          <optgroup label="Niños">
+            <option>Niño 2</option><option>Niño 4</option><option>Niño 6</option><option>Niño 8</option>
+            <option>Niño 10</option><option>Niño 12</option><option>Niño 14</option>
+          </optgroup>
+          <optgroup label="Adultos">
+            <option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option><option>XXXL</option>
+          </optgroup>
+        </select>
+      </label>
+      <label>Modelo
+        <select class="modelo" required>
+          <option value="">Elegir…</option>
+          <option>Varón</option><option>Dama</option><option>Niño/a</option>
+        </select>
+      </label>
+    </div>
+  </fieldset>
+</template>
+
+<script>
+  /* ====== CONFIGURACIÓN EDITABLE ====== */
+  const API_URL = "PEGAR_AQUI_LA_URL_DEL_APPS_SCRIPT"; // termina en /exec
+  const FECHA_LIMITE = "Fecha límite: viernes 20 de noviembre";
+  /* ==================================== */
+
+  const conectado = /^https:\/\/script\.google\.com\/.+\/exec$/.test(API_URL);
+  const $ = (s) => document.querySelector(s);
+  const cont = $('#personas'), tpl = $('#tpl-persona');
+  $('#limite').textContent = FECHA_LIMITE;
+  if (!FECHA_LIMITE) $('#limite').hidden = true;
+
+  function renumerar() {
+    const items = cont.querySelectorAll('.persona');
+    items.forEach((el, i) => {
+      el.querySelector('.titulo').textContent = 'Persona ' + (i + 1);
+      el.querySelector('legend').textContent = 'Persona ' + (i + 1);
+      el.querySelector('.quitar').hidden = items.length === 1;
+    });
+  }
+  function agregar(foco) {
+    if (cont.children.length >= 15) return;
+    const n = tpl.content.firstElementChild.cloneNode(true);
+    const talla = n.querySelector('.talla'), modelo = n.querySelector('.modelo');
+    talla.addEventListener('change', () => {
+      if (talla.value.startsWith('Niño')) modelo.value = 'Niño/a';
+      else if (modelo.value === 'Niño/a') modelo.value = '';
+    });
+    n.querySelector('.quitar').addEventListener('click', () => { n.remove(); renumerar(); });
+    cont.appendChild(n);
+    renumerar();
+    if (foco) n.querySelector('.nombre').focus();
+  }
+  agregar(false);
+  $('#agregar').addEventListener('click', () => agregar(true));
+
+  function mostrarError(msg) {
+    const e = $('#error'); e.textContent = msg; e.classList.toggle('ver', !!msg);
+    if (msg) e.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  if (!conectado) {
+    const s = $('#sinconexion');
+    s.textContent = 'El formulario todavía se está preparando. Vuelve a intentarlo en un rato.';
+    s.classList.add('ver');
+  }
+
+  $('#form').addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    mostrarError('');
+    const personas = [...cont.querySelectorAll('.persona')].map((el) => ({
+      nombre: el.querySelector('.nombre').value.trim(),
+      talla: el.querySelector('.talla').value,
+      modelo: el.querySelector('.modelo').value,
+    }));
+    const incompleta = personas.findIndex((p) => p.nombre.length < 2 || !p.talla || !p.modelo);
+    if (incompleta >= 0) {
+      mostrarError('Completa el nombre, la talla y el modelo de la persona ' + (incompleta + 1) + '.');
+      return;
+    }
+    const f = ev.target;
+    if (!f.familia.value.trim()) { mostrarError('Cuéntanos de qué familia son.'); f.familia.focus(); return; }
+    if (!conectado) { mostrarError('El formulario todavía no está conectado. Avísale a Derin.'); return; }
+
+    const btn = $('#enviar'); btn.disabled = true; btn.textContent = 'Guardando…';
+    try {
+      const r = await fetch(API_URL, {
+        method: 'POST',
+        body: JSON.stringify({ personas, familia: f.familia.value, ciudad: f.ciudad.value, whatsapp: f.whatsapp.value }),
+      });
+      const d = await r.json();
+      if (!d.ok) throw new Error(d.error || 'No se pudo guardar.');
+      const ul = $('#lista'); ul.textContent = '';
+      personas.forEach((p) => {
+        const li = document.createElement('li');
+        li.textContent = p.nombre + ' · ' + p.talla + ' · ' + p.modelo;
+        ul.appendChild(li);
+      });
+      $('#registro').hidden = true;
+      $('#exito').classList.add('ver');
+      $('#exito').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      pintarConteo(d);
+    } catch (e) {
+      mostrarError((e && e.message && e.message !== 'Failed to fetch') ? e.message : 'No hay conexión. Revisa tu internet e intenta de nuevo.');
+    } finally {
+      btn.disabled = false; btn.textContent = 'Registrar poleras';
+    }
+  });
+
+  $('#otra').addEventListener('click', () => {
+    $('#form').reset(); cont.textContent = ''; agregar(false);
+    $('#exito').classList.remove('ver'); $('#registro').hidden = false;
+    $('#registro').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  function pintarConteo(d) {
+    if (!d || !d.ok) return;
+    $('#conteo').hidden = false;
+    $('#total').textContent = d.total + (d.total === 1 ? ' polera hasta ahora' : ' poleras hasta ahora');
+    const orden = d.tallas || Object.keys(d.porTalla);
+    const max = Math.max(1, ...Object.values(d.porTalla));
+    const b = $('#barras'); b.textContent = '';
+    orden.filter((t) => d.porTalla[t]).forEach((t) => {
+      const fila = document.createElement('div'); fila.className = 'barra';
+      const n = document.createElement('span'); n.textContent = t;
+      const p = document.createElement('div'); p.className = 'pista';
+      const l = document.createElement('div'); l.className = 'lleno'; p.appendChild(l);
+      const c = document.createElement('b'); c.textContent = d.porTalla[t];
+      fila.append(n, p, c); b.appendChild(fila);
+      requestAnimationFrame(() => { l.style.width = (100 * d.porTalla[t] / max) + '%'; });
+    });
+    if (!b.children.length) $('#conteo').hidden = true;
+  }
+
+  if (conectado) {
+    fetch(API_URL).then((r) => r.json()).then(pintarConteo).catch(() => {});
+  }
+</script>
+</body>
+</html>
