@@ -127,6 +127,12 @@
   .t-detalle li { display: flex; justify-content: space-between; gap: 10px; }
   .pagar { font-size: 19px; margin: 0 0 18px; }
   .pagar b { font-family: 'Rye', serif; font-weight: 400; font-size: 26px; color: var(--cuero); }
+  .qr { background: var(--blanco); border: 1.5px solid var(--crema-2); border-radius: var(--radio); padding: 18px 16px; margin: 0 0 18px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .qr h3 { margin: 0; font-family: 'Rye', serif; font-weight: 400; font-size: 24px; color: var(--cuero); }
+  .qr p { margin: 0; }
+  .qr img { width: min(280px, 100%); height: auto; border: 6px solid #fff; border-radius: 8px; box-shadow: 0 0 0 1.5px var(--crema-2); }
+  .qr .btn { text-decoration: none; max-width: 280px; }
+  .qr .qr-nota { font-size: 14px; color: #6E513C; }
   .exito { text-align: center; display: none; }
   .exito.ver { display: block; }
   .exito h2 { font-family: 'Rye', serif; font-weight: 400; font-size: 30px; color: var(--ok); margin: 8px 0; }
@@ -198,6 +204,16 @@
       <p>Estas poleras ya están anotadas:</p>
       <ul id="lista"></ul>
       <p class="pagar">Total a pagar: <b id="pagar-monto"></b></p>
+      <div class="qr">
+        <h3>Paga con QR</h3>
+        <p>Escanea el QR desde la app de tu banco y paga <b id="qr-monto"></b>.</p>
+        <img src="qr-pago.png" alt="QR de pago de las poleras" width="513" height="503">
+        <a class="btn btn-pri" href="qr-pago.png" download="QR-Poleras-Junte-2026.png">
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 20h14"/></svg>
+          Descargar QR
+        </a>
+        <p class="qr-nota">Si pagas desde este mismo celular, descarga el QR y súbelo en la app de tu banco. En la glosa pon tu nombre.</p>
+      </div>
       <button type="button" class="btn btn-sec" id="otra">Registrar a más personas</button>
     </section>
 
@@ -351,7 +367,9 @@
         li.textContent = p.nombre + ' · ' + etiqueta(p.talla) + ' · ' + p.modelo + ' · ' + bs(precio(p.talla));
         ul.appendChild(li);
       });
-      $('#pagar-monto').textContent = bs(personas.reduce((s, p) => s + precio(p.talla), 0));
+      const aPagar = bs(personas.reduce((s, p) => s + precio(p.talla), 0));
+      $('#pagar-monto').textContent = aPagar;
+      $('#qr-monto').textContent = aPagar;
       $('#registro').hidden = true;
       $('#exito').classList.add('ver');
       $('#exito').scrollIntoView({ behavior: 'smooth', block: 'start' });
