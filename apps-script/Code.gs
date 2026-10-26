@@ -13,7 +13,7 @@ const TALLAS = ['Niño 2', 'Niño 4', 'Niño 6', 'Niño 8', 'Niño 10', 'Niño 1
 const MODELOS = ['Varón', 'Dama', 'Niño/a'];
 
 function hoja_() {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const ss = SpreadsheetApp.openById('1DqSF7dC0FzIUfiCa0FH_BMgQkvhJ0vfBpeXYlyDGJzg');
   const sh = ss.getSheetByName(HOJA) || ss.getSheets()[0];
   if (sh.getLastRow() === 0) {
     sh.appendRow(COLUMNAS);
