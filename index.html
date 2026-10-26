@@ -109,6 +109,24 @@
   .aviso.error { background: #F8E1DC; color: var(--error); border: 1.5px solid #E7B4AA; }
   .aviso.info { background: var(--crema-2); color: var(--cafe); }
 
+  .precios {
+    margin: 16px auto 0; max-width: 340px; display: flex; flex-direction: column; gap: 0;
+    background: var(--blanco); border: 1.5px solid var(--crema-2); border-radius: var(--radio); overflow: hidden;
+  }
+  .precios div { display: flex; justify-content: space-between; gap: 12px; padding: 9px 14px; font-size: 15px; }
+  .precios div + div { border-top: 1px solid var(--crema-2); }
+  .precios b { color: var(--cuero); white-space: nowrap; }
+  .precio-persona { margin: 0; font-size: 15px; text-align: right; color: #6E513C; }
+  .precio-persona b { color: var(--cafe); font-size: 17px; }
+  .caja-total { background: var(--cafe); color: var(--crema); border-radius: var(--radio); padding: 16px 18px; }
+  .total-fila { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; font-weight: 600; }
+  .total-fila b { font-family: 'Rye', serif; font-weight: 400; font-size: 32px; line-height: 1.1; white-space: nowrap; }
+  .t-nota { margin: 2px 0 0; font-size: 14px; color: #E2C9A6; }
+  .t-detalle { list-style: none; margin: 10px 0 0; padding: 10px 0 0; border-top: 1px solid rgba(244,234,219,.25); display: flex; flex-direction: column; gap: 4px; font-size: 14px; }
+  .t-detalle:empty { display: none; }
+  .t-detalle li { display: flex; justify-content: space-between; gap: 10px; }
+  .pagar { font-size: 19px; margin: 0 0 18px; }
+  .pagar b { font-family: 'Rye', serif; font-weight: 400; font-size: 26px; color: var(--cuero); }
   .exito { text-align: center; display: none; }
   .exito.ver { display: block; }
   .exito h2 { font-family: 'Rye', serif; font-weight: 400; font-size: 30px; color: var(--ok); margin: 8px 0; }
@@ -145,6 +163,11 @@
       <h1>Pide tu polera</h1>
       <p class="intro">Anota a cada persona de tu familia con su talla. Puedes registrar a varios a la vez.</p>
       <p class="limite" id="limite"></p>
+      <div class="precios" aria-label="Precios">
+        <div><span>Niños · S · M · L</span><b>55 Bs</b></div>
+        <div><span>XL</span><b>65 Bs</b></div>
+        <div><span>2XL</span><b>75 Bs</b></div>
+      </div>
 
       <div class="divisor" aria-hidden="true"></div>
 
@@ -155,6 +178,12 @@
           <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
           Agregar otra persona
         </button>
+
+        <div class="caja-total" aria-live="polite">
+          <div class="total-fila"><span id="t-cant">0 poleras</span><b id="t-monto">0 Bs</b></div>
+          <p class="t-nota">Total a pagar por tu registro</p>
+          <ul class="t-detalle" id="t-detalle"></ul>
+        </div>
 
         <div class="aviso error" id="error" role="alert"></div>
         <div class="aviso info" id="sinconexion"></div>
@@ -168,6 +197,7 @@
       <h2>¡Listo, registrado!</h2>
       <p>Estas poleras ya están anotadas:</p>
       <ul id="lista"></ul>
+      <p class="pagar">Total a pagar: <b id="pagar-monto"></b></p>
       <button type="button" class="btn btn-sec" id="otra">Registrar a más personas</button>
     </section>
 
@@ -197,11 +227,14 @@
         <select class="talla" required>
           <option value="">Elegir…</option>
           <optgroup label="Niños">
-            <option>Niño 2</option><option>Niño 4</option><option>Niño 6</option><option>Niño 8</option>
-            <option>Niño 10</option><option>Niño 12</option><option>Niño 14</option>
+            <option value="Niño 2">Niño 2</option><option value="Niño 4">Niño 4</option>
+            <option value="Niño 6">Niño 6</option><option value="Niño 8">Niño 8</option>
+            <option value="Niño 10">Niño 10</option><option value="Niño 12">Niño 12</option>
+            <option value="Niño 14">Niño 14</option>
           </optgroup>
           <optgroup label="Adultos">
-            <option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option><option>XXXL</option>
+            <option value="S">S</option><option value="M">M</option><option value="L">L</option>
+            <option value="XL">XL</option><option value="XXL">2XL</option>
           </optgroup>
         </select>
       </label>
@@ -212,6 +245,7 @@
         </select>
       </label>
     </div>
+    <p class="precio-persona">Precio: <b class="monto">—</b></p>
   </fieldset>
 </template>
 
@@ -219,7 +253,12 @@
   /* ====== CONFIGURACIÓN EDITABLE ====== */
   const API_URL = "https://script.google.com/macros/s/AKfycbzuj37IPR2IFFLR59sHy2Tswm74_95oSYiPBvEdKaSfoomUzUMatUKwRfdYw1cZtugsnQ/exec"; // termina en /exec
   const FECHA_LIMITE = "Fecha límite: viernes 20 de noviembre";
+  const PRECIOS = { 'XL': 65, 'XXL': 75 };   // las demás tallas:
+  const PRECIO_BASE = 55;                      // niños, S, M, L
   /* ==================================== */
+  const precio = (t) => t ? (PRECIOS[t] || PRECIO_BASE) : 0;
+  const etiqueta = (t) => t === 'XXL' ? '2XL' : t;
+  const bs = (n) => n.toLocaleString('es-BO') + ' Bs';
 
   const conectado = /^https:\/\/script\.google\.com\/.+\/exec$/.test(API_URL);
   const $ = (s) => document.querySelector(s);
@@ -242,11 +281,32 @@
     talla.addEventListener('change', () => {
       if (talla.value.startsWith('Niño')) modelo.value = 'Niño/a';
       else if (modelo.value === 'Niño/a') modelo.value = '';
+      calcular();
     });
-    n.querySelector('.quitar').addEventListener('click', () => { n.remove(); renumerar(); });
+    n.querySelector('.nombre').addEventListener('input', calcular);
+    n.querySelector('.quitar').addEventListener('click', () => { n.remove(); renumerar(); calcular(); });
     cont.appendChild(n);
-    renumerar();
+    renumerar(); calcular();
     if (foco) n.querySelector('.nombre').focus();
+  }
+  function calcular() {
+    let total = 0, cant = 0;
+    const det = $('#t-detalle'); det.textContent = '';
+    [...cont.querySelectorAll('.persona')].forEach((el, i) => {
+      const t = el.querySelector('.talla').value;
+      const p = precio(t);
+      el.querySelector('.monto').textContent = t ? bs(p) : '—';
+      if (!t) return;
+      total += p; cant++;
+      const li = document.createElement('li');
+      const a = document.createElement('span');
+      a.textContent = (el.querySelector('.nombre').value.trim() || 'Persona ' + (i + 1)) + ' · ' + etiqueta(t);
+      const b = document.createElement('span'); b.textContent = bs(p);
+      li.append(a, b); det.appendChild(li);
+    });
+    $('#t-cant').textContent = cant + (cant === 1 ? ' polera' : ' poleras');
+    $('#t-monto').textContent = bs(total);
+    return total;
   }
   agregar(false);
   $('#agregar').addEventListener('click', () => agregar(true));
@@ -288,9 +348,10 @@
       const ul = $('#lista'); ul.textContent = '';
       personas.forEach((p) => {
         const li = document.createElement('li');
-        li.textContent = p.nombre + ' · ' + p.talla + ' · ' + p.modelo;
+        li.textContent = p.nombre + ' · ' + etiqueta(p.talla) + ' · ' + p.modelo + ' · ' + bs(precio(p.talla));
         ul.appendChild(li);
       });
+      $('#pagar-monto').textContent = bs(personas.reduce((s, p) => s + precio(p.talla), 0));
       $('#registro').hidden = true;
       $('#exito').classList.add('ver');
       $('#exito').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -317,7 +378,7 @@
     const b = $('#barras'); b.textContent = '';
     orden.filter((t) => d.porTalla[t]).forEach((t) => {
       const fila = document.createElement('div'); fila.className = 'barra';
-      const n = document.createElement('span'); n.textContent = t;
+      const n = document.createElement('span'); n.textContent = etiqueta(t);
       const p = document.createElement('div'); p.className = 'pista';
       const l = document.createElement('div'); l.className = 'lleno'; p.appendChild(l);
       const c = document.createElement('b'); c.textContent = d.porTalla[t];
