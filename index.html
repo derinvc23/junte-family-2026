@@ -156,22 +156,6 @@
           Agregar otra persona
         </button>
 
-        <div class="bloque">
-          <h2>Datos de la familia</h2>
-          <label>¿De qué familia son?
-            <small>Ej.: hijos de la tía Chirri, familia de Efrén…</small>
-            <input name="familia" autocomplete="off" maxlength="80" required>
-          </label>
-          <div class="fila">
-            <label>¿Desde qué ciudad viajan?
-              <input name="ciudad" autocomplete="address-level2" maxlength="60" placeholder="Trinidad">
-            </label>
-            <label>WhatsApp
-              <input name="whatsapp" type="tel" inputmode="tel" autocomplete="tel" maxlength="30" placeholder="7xxxxxxx">
-            </label>
-          </div>
-        </div>
-
         <div class="aviso error" id="error" role="alert"></div>
         <div class="aviso info" id="sinconexion"></div>
 
@@ -291,15 +275,13 @@
       mostrarError('Completa el nombre, la talla y el modelo de la persona ' + (incompleta + 1) + '.');
       return;
     }
-    const f = ev.target;
-    if (!f.familia.value.trim()) { mostrarError('Cuéntanos de qué familia son.'); f.familia.focus(); return; }
     if (!conectado) { mostrarError('El formulario todavía no está conectado. Avísale a Derin.'); return; }
 
     const btn = $('#enviar'); btn.disabled = true; btn.textContent = 'Guardando…';
     try {
       const r = await fetch(API_URL, {
         method: 'POST',
-        body: JSON.stringify({ personas, familia: f.familia.value, ciudad: f.ciudad.value, whatsapp: f.whatsapp.value }),
+        body: JSON.stringify({ personas }),
       });
       const d = await r.json();
       if (!d.ok) throw new Error(d.error || 'No se pudo guardar.');
